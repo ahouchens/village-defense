@@ -94,7 +94,7 @@ class MapGrid extends Component {
     return (
       <div className="map-container"> 
         <div>
-          Village Defense
+          
         </div>
       </div>
     );

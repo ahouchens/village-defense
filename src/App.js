@@ -9,8 +9,8 @@ class WebSocketConnection extends Component {
 
     let socketProtocol = (window.location.protocol === "https:") ? "wss://" : "ws://";
     let socketUrl = socketProtocol + window.location.host;
-    // socketUrl = 'ws://localhost:5000';
-    
+    socketUrl = 'ws://localhost:5000';
+
     console.log('socketProtocol', socketProtocol);
     console.log('window.location.host', window.location.host);
     console.log('socketUrl', socketUrl);
@@ -39,6 +39,7 @@ class WebSocketConnection extends Component {
   render() {
     return (
       <div className="app-container"> 
+
         <MapGrid />
         <Chat 
           connection={this.connection}
@@ -58,6 +59,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <h1> Village Defense </h1>
         <WebSocketConnection socketMessage={this.state.socketMessage}/>
       </div>
     );

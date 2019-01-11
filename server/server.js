@@ -42,7 +42,7 @@ function htmlEntities(str) {
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 // Array with some colors
-var colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
+var colors = [ '#FFCECE', '#CACAFF', '#D6F8DE', '#FFF7B7', '#A5FEE3', '#FFE2C8', '#DCEDEA' ];
 // ... in random order
 colors.sort(function(a,b) { return Math.random() > 0.5; } );
 

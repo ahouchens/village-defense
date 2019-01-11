@@ -5,6 +5,7 @@
   font-family:tahoma; 
   font-size:12px; 
   padding: 10px;
+  color: 	#E8E8E8;
 }
 
 .chat .content { 
@@ -13,7 +14,7 @@
   overflow-y: scroll; 
   border: 1px solid #CCC;
   margin-top: 10px; 
-  height: 160px; 
+  height: 200px; 
 }
 
 .chat .content .content-message {
@@ -26,7 +27,8 @@
   border: 1px solid #ccc;
   margin-top: 10px; 
   padding: 5px; 
-  width: 100%;
+  width: 98%;
+  color: #E8E8E8;
 }
 
 .chat .chat-status {

@@ -95,7 +95,17 @@ class Chat extends Component {
       <div className="chat">
         <div className="content">
           {this.state.chatHistory.map((chatHistoryItem) =>
-            <p className="content-message" key={chatHistoryItem.time} style={{color: chatHistoryItem.color}}>{chatHistoryItem.author}: {chatHistoryItem.text}</p>
+            <p className="content-message" key={chatHistoryItem.time} >
+              <span 
+                style={{
+                  color: chatHistoryItem.color,
+                  marginRight: '5px'
+                }}
+              >
+                {chatHistoryItem.author}
+              </span> 
+              {chatHistoryItem.text}
+            </p>
           )}
           <div style={{ float:"left", clear: "both" }}
             ref={(el) => { this.messagesEnd = el; }}>
