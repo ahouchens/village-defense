@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import Chat from './components/chat/Chat.js';
+import MapGrid from './components/map-grid/MapGrid.js';
 
 class WebSocketConnection extends Component {
   constructor(props) {
     super(props);
 
-    //let socketUrl = window.location.href;
-    //url.protocol = url.protocol.replace('http', 'ws');
-    // const localSocketUrl = 'ws://127.0.0.1:5000';
-    this.connection = new WebSocket('wss://' + window.location.host);
-
+    let socketUrl = (window.location.protocol === "https:") ? "wss://" : "ws://" + window.location.host;
+    socketUrl = 'ws://localhost:5000';
+  
+    this.connection = new WebSocket(socketUrl);
 
     this.connection.onopen = this.onOpen;
     this.connection.onerror = this.onError;
@@ -32,7 +33,8 @@ class WebSocketConnection extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="app-container"> 
+        <MapGrid />
         <Chat 
           connection={this.connection}
           socketMessage={this.state.socketMessage.data}
@@ -40,121 +42,6 @@ class WebSocketConnection extends Component {
       </div>
     );
    }
-}
-
-class Chat extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-
-    this.state = {
-      chatMessage: '',
-      disabled: '',
-      chatName: false,
-      authorColor: false,
-      chatHistory: [],
-    };
-    this.input = React.createRef();
-  }
-
-  handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      let chatMessage = this.state.chatMessage;
-      if (!chatMessage) {
-        return;
-      }
-   
-      this.props.connection.send(chatMessage);
-      this.setState({
-        chatMessage: '',
-        // disabled: 'disabled',
-      });
-
-      // we know that the first message sent from a user their name  
-      if (this.state.chatName === false) {
-        this.setState({ chatName: chatMessage });
-      }
-    }
-  }
-  handleChange(e) {
-    this.setState({chatMessage: e.target.value});
-  }
-  componentDidUpdate(prevProps) {
-    if (prevProps.socketMessage !== this.props.socketMessage) {
-      let socketMessage = this.socketMessageObject();
-
-      if (!socketMessage) {
-        return;
-      }
-
-      if (socketMessage.type === 'color') {
-        this.setState({
-          chatName: socketMessage.userName,
-          authorColor: socketMessage.data
-        });
-      }
-
-      if (socketMessage.type === 'history') {
-        this.setState({
-          chatHistory: socketMessage.data
-        });
-      }
-
-      if (socketMessage.type === 'message') {
-        this.setState(prevState => ({
-          chatHistory: [...prevState.chatHistory, socketMessage.data]
-        }));
-      }
-    }
-  }
-  socketMessageObject() {
-    try {
-      return JSON.parse(this.props.socketMessage);
-    } catch (e) {
-      console.log('Invalid JSON: ', this.props.socketMessage);
-      return false;
-    }
-  }
-  isUserConnected() {
-    return !!this.socketMessageObject();
-  }
-  statusText() {
-    if (this.state.chatName.length > 0) {
-      return this.state.chatName;
-    }
-  
-    return 'Enter name:';
-  }
-  render() {
-    return (
-      <div>
-        <div id="content">
-            {this.state.chatHistory.map((chatHistoryItem) =>
-              <p key={chatHistoryItem.time} style={{color: chatHistoryItem.color}}>{chatHistoryItem.author}: {chatHistoryItem.text}</p>
-            )}
-        </div>
-        <div>
-          <span
-            id="status" 
-            style={{
-              color: this.state.authorColor
-          }}>
-            {this.statusText()}
-          </span>
-          <input
-            type="text" 
-            id="input" 
-            value={this.state.chatMessage}
-            disabled={this.state.disabled}
-            onKeyPress={this.handleKeyPress}
-            onChange={this.handleChange}
-          />
-        </div>
-      </div>
-    );
-  }
 }
 
 class App extends Component {

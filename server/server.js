@@ -11,7 +11,6 @@ const path = require('path');
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../build')));
 
-
 var server = http.createServer(app);
 server.listen(port);
 
@@ -26,21 +25,6 @@ var wsServer = new WebSocketServer({
   // http://tools.ietf.org/html/rfc6455#page-6
   httpServer: server
 });
-
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-/*app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../build/index.html'));
-});
-*/
-
-
-// Optional. You will see this name in eg. 'ps' or 'top' command
-process.title = 'node-chat';
-
-
-
 
 /**
  * Global variables
