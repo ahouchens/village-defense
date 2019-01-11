@@ -1,30 +1,47 @@
 "use strict";
 
-const express = require('express');
+//var WebSocketServer = require("ws").Server;
+var WebSocketServer = require('websocket').server;
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 5000;
 const path = require('path');
-
-
-const app = express();
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../build')));
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../build/index.html'));
+
+var server = http.createServer(app);
+server.listen(port);
+
+console.log("http server listening on %d", port);
+
+/**
+ * WebSocket server
+ */
+var wsServer = new WebSocketServer({
+  // WebSocket server is tied to a HTTP server. WebSocket
+  // request is just an enhanced HTTP request. For more info 
+  // http://tools.ietf.org/html/rfc6455#page-6
+  httpServer: server
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port);
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+/*app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '../build/index.html'));
+});
+*/
+
 
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'node-chat';
-// Port where we'll run the websocket server
-var webSocketsServerPort = 1337;
-// websocket and http servers
-var webSocketServer = require('websocket').server;
-var http = require('http');
+
+
+
+
 /**
  * Global variables
  */
@@ -44,42 +61,8 @@ function htmlEntities(str) {
 var colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
 // ... in random order
 colors.sort(function(a,b) { return Math.random() > 0.5; } );
-/**
- * HTTP server
- */
-var server = http.createServer(function(req, res) {
-  // Not important for us. We're writing WebSocket server,
-  // not HTTP server
-  res.write('Hello World!'); //write a response to the client
-  res.end(); //end the response
 
 
-});
-
-
-
-
-
-
-
-server.listen(webSocketsServerPort, function() {
-  console.log((new Date()) + " Server is listening on port "
-      + webSocketsServerPort);
-});
-
-
-
-
-
-/**
- * WebSocket server
- */
-var wsServer = new webSocketServer({
-  // WebSocket server is tied to a HTTP server. WebSocket
-  // request is just an enhanced HTTP request. For more info 
-  // http://tools.ietf.org/html/rfc6455#page-6
-  httpServer: server
-});
 // This callback function is called every time someone
 // tries to connect to the WebSocket server
 wsServer.on('request', function(request) {

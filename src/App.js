@@ -5,7 +5,7 @@ class WebSocketConnection extends Component {
   constructor(props) {
     super(props);
 
-    this.connection = new WebSocket('ws://127.0.0.1:1337');
+    this.connection = new WebSocket('ws://127.0.0.1:5000');
     this.connection.onopen = this.onOpen;
     this.connection.onerror = this.onError;
     this.connection.onmessage = this.onMessage.bind(this);
@@ -138,7 +138,7 @@ class Chat extends Component {
           }}>
             {this.statusText()}
           </span>
-          <input 
+          <input
             type="text" 
             id="input" 
             value={this.state.chatMessage}
