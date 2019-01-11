@@ -28,10 +28,21 @@ colors.sort(function(a,b) { return Math.random() > 0.5; } );
 /**
  * HTTP server
  */
-var server = http.createServer(function(request, response) {
+var server = http.createServer(function(req, res) {
   // Not important for us. We're writing WebSocket server,
   // not HTTP server
-});
+  res.write('Hello World!'); //write a response to the client
+  res.end(); //end the response
+
+
+}).listen(8080);
+
+
+
+
+
+
+
 server.listen(webSocketsServerPort, function() {
   console.log((new Date()) + " Server is listening on port "
       + webSocketsServerPort);
