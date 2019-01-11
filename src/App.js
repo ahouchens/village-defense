@@ -8,7 +8,7 @@ class WebSocketConnection extends Component {
     //let socketUrl = window.location.href;
     //url.protocol = url.protocol.replace('http', 'ws');
     // const localSocketUrl = 'ws://127.0.0.1:5000';
-    this.connection = new WebSocket('ws://' + window.location.host);
+    this.connection = new WebSocket('wss://' + window.location.host);
 
 
     this.connection.onopen = this.onOpen;
