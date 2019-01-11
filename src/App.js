@@ -7,8 +7,9 @@ class WebSocketConnection extends Component {
   constructor(props) {
     super(props);
 
-    let socketUrl = (window.location.protocol === "https:") ? "ws://" : "ws://" + window.location.host;
+    let socketUrl = (window.location.protocol === "https:") ? "wss://" : "ws://" + window.location.host;
     // socketUrl = 'ws://localhost:5000';
+    console.log('socketUrl', socketUrl);
   
     this.connection = new WebSocket(socketUrl);
 
