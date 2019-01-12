@@ -9,11 +9,7 @@ class WebSocketConnection extends Component {
 
     let socketProtocol = (window.location.protocol === "https:") ? "wss://" : "ws://";
     let socketUrl = socketProtocol + window.location.host;
-    // socketUrl = 'ws://localhost:5000';
-
-    console.log('socketProtocol', socketProtocol);
-    console.log('window.location.host', window.location.host);
-    console.log('socketUrl', socketUrl);
+    socketUrl = 'ws://localhost:5000';
   
     this.connection = new WebSocket(socketUrl);
 
@@ -39,8 +35,10 @@ class WebSocketConnection extends Component {
   render() {
     return (
       <div className="app-container"> 
-
-        <MapGrid />
+        <MapGrid 
+          connection={this.connection}
+          socketMessage={this.state.socketMessage.data}
+        />
         <Chat 
           connection={this.connection}
           socketMessage={this.state.socketMessage.data}

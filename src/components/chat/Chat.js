@@ -25,7 +25,14 @@ class Chat extends Component {
         return;
       }
    
-      this.props.connection.send(chatMessage);
+      this.props.connection.send(
+        JSON.stringify({
+          type: 'chat-message',
+          data: chatMessage
+        })
+      );
+
+
       this.setState({
         chatMessage: '',
         // disabled: 'disabled',
