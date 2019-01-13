@@ -1,0 +1,13 @@
+.grid-tile {
+  background-color: rgb(116, 38, 14);
+  width: 32px;
+  height: 32px;
+  border: 1px solid white;
+  display: flex;
+}
+
+.grid-tile-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
