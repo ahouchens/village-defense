@@ -35,14 +35,15 @@ class WebSocketConnection extends Component {
   render() {
     return (
       <div className="app-container"> 
-        <MapGrid 
-          connection={this.connection}
-          socketMessage={this.state.socketMessage.data}
-        />
         <Chat 
           connection={this.connection}
           socketMessage={this.state.socketMessage.data}
         />
+        <MapGrid 
+          connection={this.connection}
+          socketMessage={this.state.socketMessage.data}
+        />
+
       </div>
     );
    }
@@ -57,7 +58,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1> Village Defense </h1>
         <WebSocketConnection socketMessage={this.state.socketMessage}/>
       </div>
     );

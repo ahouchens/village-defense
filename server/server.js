@@ -33,7 +33,7 @@ let playerCharacters = [];
 let currentPlayerCharacter = {};
 
 // Array with some colors
-var colors = [ '#FFCECE', '#CACAFF', '#D6F8DE', '#FFF7B7', '#A5FEE3', '#FFE2C8', '#DCEDEA' ];
+var colors = [ '255, 206, 206', '202, 202, 255', '214, 248, 222', '255, 247, 183', '165, 254, 227', '255, 226, 200', '220, 237, 234' ];
 // ... in random order
 colors.sort(function(a,b) { return Math.random() > 0.5; } );
 
@@ -50,7 +50,7 @@ wsServer.on('request', function(request) {
   var userColor = false;
   console.log((new Date()) + ' Connection accepted.');
   
-  // send back chat history
+  // SEND BACK HISTORY 
   if (history.length > 0) {
     connection.sendUTF(
         JSON.stringify({ type: 'history', data: history} ));
@@ -67,11 +67,14 @@ wsServer.on('request', function(request) {
 
   // user sent some message
   connection.on('message', function(message) {
+    var messageObj = JSON.parse(message.utf8Data);
+
 
     if (message.type === 'utf8') { // accept only text
     // first message sent by user is their name
-     if (userName === false) {
-      var messageObj = JSON.parse(message.utf8Data);
+     if (userName === false && messageObj.type === 'chat-message') {
+      
+      console.log('messageObj', messageObj);
         // remember user name
         userName = util.htmlEntities(messageObj.data);
         // get random color and send it back to the user
@@ -85,11 +88,17 @@ wsServer.on('request', function(request) {
 
         let playerCharacter = {
           userName: userName,
-          leftPosition: 32,
-          topPosition: 32,
+          x: 100,
+          y: 100,
+          w: 32,
+          h: 64,
+          facingDirection: 'right',
+          moving: false,
           color: userColor,
-          id: (new Date()).getTime()
+          id: (new Date()).getTime(),
+
         };
+        console.log('invoke character');
         util.broadcastMessage(clients, Object.assign({...playerCharacter}, { type: 'invoke-character' }));
         util.sendMessage(connection, Object.assign({...playerCharacter}, { type: 'current-player-character' }))
         currentPlayerCharacter = playerCharacter;
@@ -121,23 +130,17 @@ wsServer.on('request', function(request) {
         }
 
         if (messageObj.type === 'update-character') {
-          console.log('update-character', messageObj);
 
-          let playerCharacter = {
-            userName: messageObj.userName,
-            leftPosition: messageObj.leftPosition,
-            topPosition: messageObj.topPosition,
-            color: messageObj.color,
-            id: messageObj.id
-          };
+          delete messageObj['type'];
           
           let characterToUpdateIndex = playerCharacters.findIndex((character) => {
             return character.id === messageObj.id;
           });
+          console.log('BEFORE UPDATE:', playerCharacters[characterToUpdateIndex]);
+          Object.assign(playerCharacters[characterToUpdateIndex], messageObj);
+          console.log('AFTER UPDATE:',playerCharacters[characterToUpdateIndex]);
 
-          Object.assign(playerCharacters[characterToUpdateIndex], playerCharacter);
-
-          util.broadcastMessage(clients, Object.assign({...playerCharacter}, { type: 'update-character' }));
+          util.broadcastMessage(clients, Object.assign({...playerCharacters[characterToUpdateIndex]}, { type: 'update-character' }));
         }
 
       }

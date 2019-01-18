@@ -1,5 +1,73 @@
 .player-character {
-  width: 32px;
-  height: 32px;
   position: absolute;
+  font-size: 7px;
+  font-weight: bold;
+
+  padding-top: 1px;
+  /* box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2); */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+}
+
+.down {
+  background: url(./player-character.png) -16px -640px;
+}
+.down-moving {
+  background: url(./player-character.png);
+  background-position-y: -640px;
+  animation: down-direction .5s steps(9) infinite;
+}
+
+.up {
+  background: url(./player-character.png) -16px -520px;
+}
+.up-moving {
+  background: url(./player-character.png);
+  background-position-y: -520px;
+  animation: up-direction .5s steps(9) infinite;
+}
+
+.left {
+  background: url(./player-character.png) -16px -576px;
+}
+.left-moving {
+  background: url(./player-character.png);
+  background-position-y: -576px;
+  animation: left-direction .5s steps(9) infinite;
+}
+
+.right {
+  background: url(./player-character.png) -16px -704px;
+}
+.right-moving {
+  background: url(./player-character.png);
+  background-position-y: -704px;
+  animation: right-direction .5s steps(9) infinite;
+}
+
+
+
+@keyframes up-direction {
+  from { background-position-x: -16px; }
+  to { background-position-x: -592px; }
+}
+@keyframes left-direction {
+  from { background-position-x: -16px; }
+  to { background-position-x: -592px; }
+}
+@keyframes right-direction {
+  from { background-position-x: -16px; }
+  to { background-position-x: -592px; }
+}
+
+@keyframes down-direction {
+  from { background-position-x: -16px; }
+  to { background-position-x: -592px; }
+}
+
+
+[tabindex] {
+  outline: none !important;
 }

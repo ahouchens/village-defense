@@ -1,10 +1,11 @@
 .grid {
-  width: 400px;
-  background-color: black;
+  width: auto;
   height: 100%;
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 10px;
   position:relative;
+  margin-left: 14px;
+  background-color:black;
 }

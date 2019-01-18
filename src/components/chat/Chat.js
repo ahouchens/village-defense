@@ -40,6 +40,7 @@ class Chat extends Component {
 
       // we know that the first message sent from a user their name  
       if (this.state.chatName === false) {
+        console.log('chatMessage!!!', chatMessage);
         this.setState({ chatName: chatMessage });
       }
     }
@@ -66,6 +67,10 @@ class Chat extends Component {
         this.setState({
           chatHistory: socketMessage.data
         });
+      }
+
+      if (socketMessage.type === 'current-player-character') {
+
       }
 
       if (socketMessage.type === 'message') {
@@ -105,8 +110,9 @@ class Chat extends Component {
             <p className="content-message" key={chatHistoryItem.time} >
               <span 
                 style={{
-                  color: chatHistoryItem.color,
-                  marginRight: '5px'
+                  color: 'rgb(' + chatHistoryItem.color + ')',
+                  marginRight: '5px',
+                  background: 'none'
                 }}
               >
                 {chatHistoryItem.author}
@@ -118,12 +124,12 @@ class Chat extends Component {
             ref={(el) => { this.messagesEnd = el; }}>
           </div>
         </div>
-        <div>
+        <div className="chat-status-container">
           <div
             id="status" 
             className="chat-status"
             style={{
-              color: this.state.authorColor
+              color: 'rgb(' + this.state.authorColor + ')'
           }}>
             {this.statusText()}
           </div>
