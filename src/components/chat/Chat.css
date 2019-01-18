@@ -16,17 +16,17 @@
 }
 
 .chat .content { 
-  padding: 15px 15px 25px 15px;
+  padding: 5px 15px 25px 6px;
   background-color: rgba(100, 100, 100, .4);
-  border-radius:5px;
-  overflow-y: scroll; 
+  border-radius: 5px;
+  overflow-y: scroll;
   border: 1px solid rgba(0, 0, 100, .4);
-  margin-top: 10px; 
-  height: 200px; 
+  margin-top: 10px;
+  height: 200px;
 }
 
 .chat .content .content-message {
-  line-height: 12px;
+  line-height: 20px;
   margin: 3px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
