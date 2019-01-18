@@ -12,37 +12,37 @@
 }
 
 .down {
-  background: url(./player-character.png) -16px -640px;
+  background: url(./player-character-2.png) -16px -640px;
 }
 .down-moving {
-  background: url(./player-character.png);
+  background: url(./player-character-2.png);
   background-position-y: -640px;
   animation: down-direction .5s steps(9) infinite;
 }
 
 .up {
-  background: url(./player-character.png) -16px -520px;
+  background: url(./player-character-2.png) -16px -520px;
 }
 .up-moving {
-  background: url(./player-character.png);
+  background: url(./player-character-2.png);
   background-position-y: -520px;
   animation: up-direction .5s steps(9) infinite;
 }
 
 .left {
-  background: url(./player-character.png) -16px -576px;
+  background: url(./player-character-2.png) -16px -576px;
 }
 .left-moving {
-  background: url(./player-character.png);
+  background: url(./player-character-2.png);
   background-position-y: -576px;
   animation: left-direction .5s steps(9) infinite;
 }
 
 .right {
-  background: url(./player-character.png) -16px -704px;
+  background: url(./player-character-2.png) -16px -704px;
 }
 .right-moving {
-  background: url(./player-character.png);
+  background: url(./player-character-2.png);
   background-position-y: -704px;
   animation: right-direction .5s steps(9) infinite;
 }

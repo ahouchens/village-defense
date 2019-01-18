@@ -16,7 +16,6 @@ class GridTile extends Component {
     this.gridHeight = this.props.gridHeight;
     this.rowId = this.props.rowId;
 
-    this.backgroundColor = (this.isBoundaryTile()) ? 'green' : 'red';
     this.backgroundImage = (this.isBoundaryTile()) ? WallSprite : GroundSprite;
   }
   isBoundaryTile() {
@@ -42,8 +41,8 @@ class GridTile extends Component {
         id: this.id,
         x: this.someRefName.current.offsetLeft,
         y: this.someRefName.current.offsetTop,
-        w: 32,
-        h: 32
+        w: this.someRefName.current.width,
+        h: this.someRefName.current.height
       });
     }
   }
