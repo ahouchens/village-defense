@@ -1,15 +1,16 @@
 {
-  "main.css": "/static/css/main.957cf98e.chunk.css",
-  "main.js": "/static/js/main.df2574a1.chunk.js",
-  "main.js.map": "/static/js/main.df2574a1.chunk.js.map",
-  "static/js/1.299cfeb1.chunk.js": "/static/js/1.299cfeb1.chunk.js",
-  "static/js/1.299cfeb1.chunk.js.map": "/static/js/1.299cfeb1.chunk.js.map",
+  "main.css": "/static/css/main.7526db23.chunk.css",
+  "main.js": "/static/js/main.3f4ca755.chunk.js",
+  "main.js.map": "/static/js/main.3f4ca755.chunk.js.map",
+  "static/js/1.832cb151.chunk.js": "/static/js/1.832cb151.chunk.js",
+  "static/js/1.832cb151.chunk.js.map": "/static/js/1.832cb151.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
+  "static/media/grass-dirt-tile-sheet.png": "/static/media/grass-dirt-tile-sheet.dc2e3afb.png",
   "static/media/PlayerCharacter.css": "/static/media/player-character-2.b6156924.png",
   "static/media/player-character.png": "/static/media/player-character.8eac3d76.png",
-  "static/css/main.957cf98e.chunk.css.map": "/static/css/main.957cf98e.chunk.css.map",
+  "static/css/main.7526db23.chunk.css.map": "/static/css/main.7526db23.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.0356fbaca216c5d88dc1b3b1c96aeda0.js": "/precache-manifest.0356fbaca216c5d88dc1b3b1c96aeda0.js",
+  "precache-manifest.c75e5a60d3646526a396fd6e520359f6.js": "/precache-manifest.c75e5a60d3646526a396fd6e520359f6.js",
   "service-worker.js": "/service-worker.js"
 }
