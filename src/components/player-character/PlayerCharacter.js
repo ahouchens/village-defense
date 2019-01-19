@@ -186,8 +186,6 @@ class PlayerCharacter extends Component {
       default:
         //className = 'down';
     } 
-    console.log('className', className);
-    console.log('facingDirection', this.state.facingDirection);
     return className;
     
   }
@@ -207,7 +205,7 @@ class PlayerCharacter extends Component {
           width: this.state.w + 'px',
           height: this.state.h + 'px',
           //WebkitTransition: 'all 0.7s ease-out'
-          webkitBoxShadow: 'inset 0px 10px 0px 0px rgba(' + this.state.color + ', .6)',
+          WebkitBoxShadow: 'inset 0px 10px 0px 0px rgba(' + this.state.color + ', .6)',
         }}
         >
         {this.state.userName}

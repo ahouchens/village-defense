@@ -51,7 +51,7 @@ class MapGrid extends Component {
       currentPlayerCharacter: {},
 
       gridHeight: 20,
-      gridWidth: 30,
+      gridWidth: 38,
       collisionRegistry: [],
 
     };
@@ -70,6 +70,7 @@ class MapGrid extends Component {
   }
 
   registerCollisionObject(obj) {
+    console.log('registerCollisionObject', obj);
     this.state.collisionRegistry.push({
       id: obj.id,
       x: obj.x,
