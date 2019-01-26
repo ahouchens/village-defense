@@ -9,7 +9,7 @@ class PlayerCharacter extends Component {
     this.onKeyUp = this.onKeyUp.bind(this);
 
     this.state = {
-      speed: 5,
+      speed: this.props.speed,
       id: this.props.id,
       y: this.props.y,
       x: this.props.x,
@@ -20,8 +20,7 @@ class PlayerCharacter extends Component {
       color: this.props.color,
       userName: this.props.userName,
       currentPlayerCharacter: this.props.currentPlayerCharacter,
-
-      className: ''
+      className: this.props.speed
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -35,7 +34,8 @@ class PlayerCharacter extends Component {
         facingDirection: nextProps.facingDirection,
         moving: nextProps.moving,
         color: nextProps.color,
-        currentPlayerCharacter: nextProps.currentPlayerCharacter
+        currentPlayerCharacter: nextProps.currentPlayerCharacter,
+        className: nextProps
       });
     }
   }
@@ -72,7 +72,7 @@ class PlayerCharacter extends Component {
     let facingDirection = this.state.facingDirection;
     let moving = this.state.moving;
     let type = 'update-character';
-    let className = '';
+    let className = this.state.className;
   
     if (e.key === 'w') {
       y = this.state.y - this.state.speed;
@@ -84,7 +84,10 @@ class PlayerCharacter extends Component {
 
     if (e.key === 's') {
       y = this.state.y + this.state.speed;
-      
+      console.log('y', y);
+      console.log('state y', this.state.y);
+      console.log('state speed', this.state.speed);
+
       facingDirection = 'down';
       moving = true;
       className = 'down';
@@ -113,16 +116,16 @@ class PlayerCharacter extends Component {
       w: w,
       h: h
     };
-    console.log('collisionObj before check', collisionObj);
+    //console.log('collisionObj before check', collisionObj);
     let collisions = this.props.checkCollisions(collisionObj);
     
-    console.log('collisions', collisions);
+    //console.log('collisions', collisions);
     
     if (collisions.length > 0) {
       console.log('NO MOVE');
     } else {
-      console.log('facingDirection Updated: ', facingDirection);
-      this.setState({
+      //console.log('facingDirection Updated: ', facingDirection);
+      let playerCharacterObj = {
         className: className,
         color: newColor,
         y: y,
@@ -134,20 +137,13 @@ class PlayerCharacter extends Component {
         userName: newUserName,
         id: id,
         type: type,
-      });
+      };
+
+      this.props.registerGameLoopEvent(playerCharacterObj);
+
+      //this.setState(playerCharacterObj);
   
-      this.props.connection.send(JSON.stringify({
-        type: type,
-        id: this.state.id,
-        userName: this.state.userName,
-        color: this.state.color,
-        x: x,
-        y: y,
-        w: w,
-        h: h,
-        facingDirection: facingDirection,
-        moving: moving
-      }));
+      
     }
 
   }

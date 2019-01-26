@@ -55,7 +55,7 @@ class MapGrid extends Component {
       collisionRegistry: [],
 
     };
-
+    this.gameEvents = [];
     this.gridRows = [];
     let i = 0;
     for (i; i < this.state.gridHeight; i++) {
@@ -66,11 +66,28 @@ class MapGrid extends Component {
 
     this.checkCollisions = this.checkCollisions.bind(this);
     this.registerCollisionObject = this.registerCollisionObject.bind(this);
+    this.registerGameLoopEvent = this.registerGameLoopEvent.bind(this);
 
   }
-
+  componentDidMount() {
+    const gameLoopIntervalId = setInterval(() => this.gameLoopTick(), 10);
+    this.setState({ gameLoopIntervalId });
+  }
+  componentWillUnmount() {
+    // Make sure to clear the interval, on unmount
+    clearInterval(this.state.gameLoopIntervalId);
+ }
+  gameLoopTick() {
+    this.gameEvents.forEach((event, i) => {
+      this.props.connection.send(JSON.stringify(event));
+      this.gameEvents.splice(i, 1);
+    });
+  }
+  registerGameLoopEvent(event) {
+    this.gameEvents.push(event);
+  }
   registerCollisionObject(obj) {
-    console.log('registerCollisionObject', obj);
+    //console.log('registerCollisionObject', obj);
     this.state.collisionRegistry.push({
       id: obj.id,
       x: obj.x,
@@ -85,14 +102,14 @@ class MapGrid extends Component {
     let rect1 = collisionObj;
 
     let collisionRegistryObjects = [].concat(this.state.playerCharacters, this.state.collisionRegistry);
-    console.log('collisionRegistryObjects Before Filter', collisionRegistryObjects);
+    //console.log('collisionRegistryObjects Before Filter', collisionRegistryObjects);
     collisionRegistryObjects = collisionRegistryObjects.filter((obj) => {
       if (obj.id )
       return obj.id !== collisionObj.id;
     });
-    console.log('rect1', rect1);
-    console.log('collisionRegistryObjects', collisionRegistryObjects);
-    console.log('this.state.playerCharacters', this.state.playerCharacters);
+    //console.log('rect1', rect1);
+    //console.log('collisionRegistryObjects', collisionRegistryObjects);
+    //console.log('this.state.playerCharacters', this.state.playerCharacters);
     collisionRegistryObjects.forEach((collisionObj2) => {
  
       let rect2 = {
@@ -141,7 +158,7 @@ class MapGrid extends Component {
     playerCharacters[index] = Object.assign(this.state.playerCharacters[index], socketMessage);
 
     Object.assign(playerCharacters[index], socketMessage);
-    console.log('playerCharacters', playerCharacters);
+    //console.log('playerCharacters', playerCharacters);
    this.setState({ playerCharacters: playerCharacters });
   }
 
@@ -160,12 +177,12 @@ class MapGrid extends Component {
     }
   }
   invoke(socketMessage) {
-    console.log('INVOKE', socketMessage);
+    //console.log('INVOKE', socketMessage);
     this.setState(prevState => ({
       playerCharacters: [...prevState.playerCharacters, socketMessage],
     }), () => {
-      console.log('this.state.playerChracters', this.playerCharacters );
-      console.log('socketMessage', socketMessage);
+      //console.log('this.state.playerChracters', this.playerCharacters );
+      //console.log('socketMessage', socketMessage);
       this.spawnWithoutCollision(socketMessage);
     });
 
@@ -192,12 +209,12 @@ class MapGrid extends Component {
         }));
       }
       if (socketMessage.type === 'invoke-character') {
-        console.log('EVENT: INVOKE CHARACTER');
+        //console.log('EVENT: INVOKE CHARACTER');
         this.invoke(socketMessage);
       }
 
       if (socketMessage.type === 'update-character') {
-        console.log('EVENT: UPDATE CHARACTER', socketMessage);
+        //console.log('EVENT: UPDATE CHARACTER', socketMessage);
         this.update(socketMessage);
       }
 
@@ -222,11 +239,14 @@ class MapGrid extends Component {
             moving={playerCharacter.moving}
             color={playerCharacter.color}
             userName={playerCharacter.userName}
+            speed={playerCharacter.speed}
 
             connection={this.props.connection}
             currentPlayerCharacter={this.state.currentPlayerCharacter}
             checkCollisions={this.checkCollisions}
             collisionRegistry={this.state.collisionRegistry}
+
+            registerGameLoopEvent={this.registerGameLoopEvent}
           />
         )}
 
