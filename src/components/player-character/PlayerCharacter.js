@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import './PlayerCharacter.css';
 import PlayerCharacterSprite from './player-character.png';
 
+const KEY_MAP = {
+  'up': 'w',
+  'down': 's',
+  'left': 'a',
+  'right': 'd'
+};
+
 class PlayerCharacter extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +54,14 @@ class PlayerCharacter extends Component {
       return;
     }
     if (e.key === 'w' || e.key === 'a' || e.key === 's'  || e.key === 'd') {
+      let playerCharacterObj = {
+        moving: false,
+        type: 'update-character',
+        id: this.state.id
+      };
+      //this.props.registerGameLoopEvent(playerCharacterObj);
+
+      console.log('keyUp stop moving');
       this.setState({
         moving: false
       });
@@ -55,10 +70,12 @@ class PlayerCharacter extends Component {
         type: 'update-character',
         id: this.state.id,
       }));
-    } 
+      
+    }
   }
   onKeyDown(e) {
     if (!this.isCurrentPlayerCharacter()) {
+      console.log('return end');
       return;
     }
 
@@ -74,77 +91,47 @@ class PlayerCharacter extends Component {
     let type = 'update-character';
     let className = this.state.className;
   
-    if (e.key === 'w') {
-      y = this.state.y - this.state.speed;
-      
+    if (e.key === KEY_MAP.up) {
       facingDirection = 'up';
       moving = true;
       className = 'up';
     }
 
-    if (e.key === 's') {
-      y = this.state.y + this.state.speed;
-      console.log('y', y);
-      console.log('state y', this.state.y);
-      console.log('state speed', this.state.speed);
-
+    if (e.key === KEY_MAP.down) {
       facingDirection = 'down';
       moving = true;
       className = 'down';
     }
   
-    if (e.key === 'a') {
-      x = this.state.x - this.state.speed;
-      
+    if (e.key === KEY_MAP.left) {      
       facingDirection = 'left';
       moving = true;
       className = 'left';
     }
 
-    if (e.key === 'd') {
-      x = this.state.x + this.state.speed;
-      
+    if (e.key === KEY_MAP.right) {
       facingDirection = 'right';
       moving = true;
       className = 'right';
     }
 
-    let collisionObj = {
-      id: id,
+    let playerCharacterObj = {
+      className: className,
+      color: newColor,
       y: y,
       x: x,
       w: w,
-      h: h
+      h: h,
+      facingDirection: facingDirection,
+      moving: moving,
+      userName: newUserName,
+      id: id,
+      type: type,
     };
-    //console.log('collisionObj before check', collisionObj);
-    let collisions = this.props.checkCollisions(collisionObj);
-    
-    //console.log('collisions', collisions);
-    
-    if (collisions.length > 0) {
-      console.log('NO MOVE');
-    } else {
-      //console.log('facingDirection Updated: ', facingDirection);
-      let playerCharacterObj = {
-        className: className,
-        color: newColor,
-        y: y,
-        x: x,
-        w: w,
-        h: h,
-        facingDirection: facingDirection,
-        moving: moving,
-        userName: newUserName,
-        id: id,
-        type: type,
-      };
 
-      this.props.registerGameLoopEvent(playerCharacterObj);
+    // this.props.registerGameLoopEvent(playerCharacterObj);
+    this.props.connection.send(JSON.stringify(playerCharacterObj));
 
-      //this.setState(playerCharacterObj);
-  
-      
-    }
 
   }
   className() {

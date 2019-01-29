@@ -70,7 +70,7 @@ class MapGrid extends Component {
 
   }
   componentDidMount() {
-    const gameLoopIntervalId = setInterval(() => this.gameLoopTick(), 10);
+    const gameLoopIntervalId = setInterval(() => this.gameLoopTick(), 70);
     this.setState({ gameLoopIntervalId });
   }
   componentWillUnmount() {
@@ -78,10 +78,59 @@ class MapGrid extends Component {
     clearInterval(this.state.gameLoopIntervalId);
  }
   gameLoopTick() {
-    this.gameEvents.forEach((event, i) => {
+    
+    this.state.playerCharacters.forEach((playerCharacter) => {
+      let playerChar = Object.assign(playerCharacter, {});
+      let x = playerChar.x;
+      let y = playerChar.y;
+
+      if (playerChar.moving) {
+        if (playerChar.facingDirection === 'up' ) {
+          y = playerChar.y - playerChar.speed;
+        }
+        if (playerChar.facingDirection === 'down') {
+          y = playerChar.y + playerChar.speed;
+        }
+        if (playerChar.facingDirection === 'left') {
+          x = playerChar.x - playerChar.speed;
+        }
+        if (playerChar.facingDirection === 'right') {
+          x = playerChar.x + playerChar.speed;
+        }
+        let collisionObj = {
+          id: playerChar.id,
+          y: y,
+          x: x,
+          w: playerChar.w,
+          h: playerChar.h
+        };
+        let collisions = this.checkCollisions(collisionObj);
+
+        if (collisions.length > 0) {
+          console.log('NO MOVE');
+        } else {
+          let playerCharacterObj = {
+            id: playerChar.id,
+            x,
+            y,
+            type: 'update-character'
+          };
+          this.props.connection.send(JSON.stringify(playerCharacterObj));
+        }
+
+
+
+      }
+
+    });
+    
+    let i = this.gameEvents.length;
+    while(i--) {
+      let event = this.gameEvents[i];
       this.props.connection.send(JSON.stringify(event));
       this.gameEvents.splice(i, 1);
-    });
+    }
+
   }
   registerGameLoopEvent(event) {
     this.gameEvents.push(event);
@@ -148,7 +197,12 @@ class MapGrid extends Component {
   }
   update(socketMessage) {
     delete socketMessage.type;
-
+    console.log('update', socketMessage);
+    if (socketMessage.moving === false) {
+      console.log('STOP MOVING FROM SERVER');
+    } else {
+      console.log('ELSE MOVING', socketMessage.moving);
+    }
     let index = this.state.playerCharacters.findIndex((character) => {
       return character.id === socketMessage.id;
     });
