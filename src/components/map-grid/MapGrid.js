@@ -70,7 +70,7 @@ class MapGrid extends Component {
 
   }
   componentDidMount() {
-    const gameLoopIntervalId = setInterval(() => this.gameLoopTick(), 70);
+    const gameLoopIntervalId = setInterval(() => this.gameLoopTick(), 20);
     this.setState({ gameLoopIntervalId });
   }
   componentWillUnmount() {
@@ -117,8 +117,6 @@ class MapGrid extends Component {
           };
           this.props.connection.send(JSON.stringify(playerCharacterObj));
         }
-
-
 
       }
 

@@ -54,17 +54,6 @@ class PlayerCharacter extends Component {
       return;
     }
     if (e.key === 'w' || e.key === 'a' || e.key === 's'  || e.key === 'd') {
-      let playerCharacterObj = {
-        moving: false,
-        type: 'update-character',
-        id: this.state.id
-      };
-      //this.props.registerGameLoopEvent(playerCharacterObj);
-
-      console.log('keyUp stop moving');
-      this.setState({
-        moving: false
-      });
       this.props.connection.send(JSON.stringify({
         moving: false,
         type: 'update-character',
@@ -74,62 +63,52 @@ class PlayerCharacter extends Component {
     }
   }
   onKeyDown(e) {
-    if (!this.isCurrentPlayerCharacter()) {
-      console.log('return end');
+    if (!this.isCurrentPlayerCharacter() || this.state.moving) {
       return;
     }
 
-    let y = this.state.y;
-    let x = this.state.x;
-    let w = this.state.w;
-    let h = this.state.h;
     let id = this.state.id;
-    let newUserName = this.state.userName;
-    let newColor = this.state.color; 
     let facingDirection = this.state.facingDirection;
     let moving = this.state.moving;
     let type = 'update-character';
     let className = this.state.className;
   
+    Object.entries(KEY_MAP).forEach(
+      ([key, value]) => {
+        if (KEY_MAP[key] === e.key) {
+          moving = true;
+        }
+      }
+    );
+  
     if (e.key === KEY_MAP.up) {
       facingDirection = 'up';
-      moving = true;
       className = 'up';
     }
 
     if (e.key === KEY_MAP.down) {
       facingDirection = 'down';
-      moving = true;
       className = 'down';
     }
   
     if (e.key === KEY_MAP.left) {      
       facingDirection = 'left';
-      moving = true;
       className = 'left';
     }
 
     if (e.key === KEY_MAP.right) {
       facingDirection = 'right';
-      moving = true;
       className = 'right';
     }
 
     let playerCharacterObj = {
       className: className,
-      color: newColor,
-      y: y,
-      x: x,
-      w: w,
-      h: h,
       facingDirection: facingDirection,
-      moving: moving,
-      userName: newUserName,
+      moving,
       id: id,
       type: type,
     };
 
-    // this.props.registerGameLoopEvent(playerCharacterObj);
     this.props.connection.send(JSON.stringify(playerCharacterObj));
 
 

@@ -97,7 +97,7 @@ wsServer.on('request', function(request) {
           color: userColor,
           id: (new Date()).getTime(),
           className: '',
-          speed: 5
+          speed: 1
         };
         console.log('invoke character');
         util.broadcastMessage(clients, Object.assign({...playerCharacter}, { type: 'invoke-character' }));
